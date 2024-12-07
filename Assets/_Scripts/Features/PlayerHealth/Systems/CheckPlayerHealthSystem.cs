@@ -3,28 +3,32 @@ using UnityEngine;
 
 public class CheckPlayerHealthSystem : IExecuteSystem
 {
-    private readonly IGroup<GameEntity> _playerGroup;
+    private readonly GameContext _context;
 
     public CheckPlayerHealthSystem(Contexts contexts)
     {
-        _playerGroup = contexts.game.GetGroup(GameMatcher.PlayerHealth);
+        _context = contexts.game;
     }
 
     public void Execute()
     {
-        foreach (var entity in _playerGroup.GetEntities())
-        {
-            if (entity.isPlayerDamaged)
-            {
-                entity.ReplacePlayerHealth(Mathf.Max(0, entity.playerHealth.Value - 10f));
-                entity.isPlayerDamaged = false;
-            }
+        var entity = _context.GetGroup(GameMatcher.PlayerHealth).GetSingleEntity();
+        if (entity == null) return;
 
-            if (entity.isPlayerHealed)
-            {
-                entity.ReplacePlayerHealth(Mathf.Min(100, entity.playerHealth.Value + 10f));
-                entity.isPlayerHealed = false;
-            }
+        if (entity.isPlayerDamaged)
+        {
+            float newHealth = Mathf.Max(0, entity.playerHealth.Value - 10);
+            Debug.Log($"Hasar alýndý! Yeni Can: {newHealth}");
+            entity.ReplacePlayerHealth(newHealth);
+            entity.isPlayerDamaged = false;
+        }
+
+        if (entity.isPlayerHealed)
+        {
+            float newHealth = Mathf.Min(100, entity.playerHealth.Value + 10);
+            Debug.Log($"Ýyileþtirildi! Yeni Can: {newHealth}");
+            entity.ReplacePlayerHealth(newHealth);
+            entity.isPlayerHealed = false;
         }
     }
 }
