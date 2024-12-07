@@ -1,31 +1,30 @@
-//using Entitas;
-//using UnityEngine;
+using Entitas;
+using UnityEngine;
 
-//public class CheckPlayerHealthSystem : IExecuteSystem
-//{
-//    readonly GameContext _context;
+public class CheckPlayerHealthSystem : IExecuteSystem
+{
+    private readonly IGroup<GameEntity> _playerGroup;
 
-//    public CheckPlayerHealthSystem(Contexts contexts)
-//    {
-//        _context = contexts.game;
-//    }
+    public CheckPlayerHealthSystem(Contexts contexts)
+    {
+        _playerGroup = contexts.game.GetGroup(GameMatcher.PlayerHealth);
+    }
 
-//    public void Execute()
-//    {
-//        var playerEntities = _context;
+    public void Execute()
+    {
+        foreach (var entity in _playerGroup.GetEntities())
+        {
+            if (entity.isPlayerDamaged)
+            {
+                entity.ReplacePlayerHealth(Mathf.Max(0, entity.playerHealth.Value - 10f));
+                entity.isPlayerDamaged = false;
+            }
 
-//        foreach (var playerEntity in playerEntities)
-//        {
-//            if (playerEntity.hasPlayerDamaged)
-//            {
-//                playerEntity.ReplacePlayerHealth(Mathf.Max(0, playerEntity.playerHealth.Value - 10));
-//                playerEntity.RemovePlayerDamaged();
-//            }
-//            else if (playerEntity.hasPlayerHealed)
-//            {
-//                playerEntity.ReplacePlayerHealth(Mathf.Min(100, playerEntity.playerHealth.Value + 10));
-//                playerEntity.RemovePlayerHealed();
-//            }
-//        }
-//    }
-//}
+            if (entity.isPlayerHealed)
+            {
+                entity.ReplacePlayerHealth(Mathf.Min(100, entity.playerHealth.Value + 10f));
+                entity.isPlayerHealed = false;
+            }
+        }
+    }
+}

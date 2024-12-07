@@ -1,9 +1,7 @@
 using Entitas;
 
-namespace MyGame.Features.PlayerHealth.Components
+[Game]
+public class PlayerHealthComponent : IComponent
 {
-    public class PlayerHealthComponent : IComponent
-    {
-        public float Value;
-    }
+    public float Value;
 }

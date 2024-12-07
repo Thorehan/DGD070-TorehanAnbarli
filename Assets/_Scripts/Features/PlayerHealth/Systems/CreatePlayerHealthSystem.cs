@@ -1,21 +1,17 @@
-//using Entitas;
-//using UnityEngine;
+using Entitas;
 
-//namespace MyGame.Features.PlayerHealth.Systems
-//{
-//    public class CreatePlayerHealthSystem : IInitializeSystem
-//    {
-//        readonly Contexts _contexts;
+public class CreatePlayerHealthSystem : IInitializeSystem
+{
+    private readonly Contexts _contexts;
 
-//        public CreatePlayerHealthSystem(Contexts contexts)
-//        {
-//            _contexts = contexts;
-//        }
+    public CreatePlayerHealthSystem(Contexts contexts)
+    {
+        _contexts = contexts;
+    }
 
-//        public void Initialize()
-//        {
-//            var playerEntity = _contexts.game.CreateEntity();
-//            playerEntity.AddPlayerHealth(100);
-//        }
-//    }
-//}
+    public void Initialize()
+    {
+        var entity = _contexts.game.CreateEntity();
+        entity.AddPlayerHealth(100f);
+    }
+}

@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly MyGame.Features.PlayerHealth.Components.PlayerDamagedComponent myGameFeaturesPlayerHealthComponentsPlayerDamagedComponent = new MyGame.Features.PlayerHealth.Components.PlayerDamagedComponent();
+    static readonly PlayerDamagedComponent playerDamagedComponent = new PlayerDamagedComponent();
 
-    public bool isMyGameFeaturesPlayerHealthComponentsPlayerDamaged {
-        get { return HasComponent(GameComponentsLookup.MyGameFeaturesPlayerHealthComponentsPlayerDamaged); }
+    public bool isPlayerDamaged {
+        get { return HasComponent(GameComponentsLookup.PlayerDamaged); }
         set {
-            if (value != isMyGameFeaturesPlayerHealthComponentsPlayerDamaged) {
-                var index = GameComponentsLookup.MyGameFeaturesPlayerHealthComponentsPlayerDamaged;
+            if (value != isPlayerDamaged) {
+                var index = GameComponentsLookup.PlayerDamaged;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : myGameFeaturesPlayerHealthComponentsPlayerDamagedComponent;
+                            : playerDamagedComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherMyGameFeaturesPlayerHealthComponentsPlayerDamaged;
+    static Entitas.IMatcher<GameEntity> _matcherPlayerDamaged;
 
-    public static Entitas.IMatcher<GameEntity> MyGameFeaturesPlayerHealthComponentsPlayerDamaged {
+    public static Entitas.IMatcher<GameEntity> PlayerDamaged {
         get {
-            if (_matcherMyGameFeaturesPlayerHealthComponentsPlayerDamaged == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.MyGameFeaturesPlayerHealthComponentsPlayerDamaged);
+            if (_matcherPlayerDamaged == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.PlayerDamaged);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherMyGameFeaturesPlayerHealthComponentsPlayerDamaged = matcher;
+                _matcherPlayerDamaged = matcher;
             }
 
-            return _matcherMyGameFeaturesPlayerHealthComponentsPlayerDamaged;
+            return _matcherPlayerDamaged;
         }
     }
 }

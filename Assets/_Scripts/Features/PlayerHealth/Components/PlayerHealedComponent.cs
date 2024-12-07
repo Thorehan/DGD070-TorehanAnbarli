@@ -1,9 +1,4 @@
 using Entitas;
 
-namespace MyGame.Features.PlayerHealth.Components
-{
-    public class PlayerHealedComponent : IComponent
-    {
-        // Tag component
-    }
-}
+[Game]
+public class PlayerHealedComponent : IComponent { }

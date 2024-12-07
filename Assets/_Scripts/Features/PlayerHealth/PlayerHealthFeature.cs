@@ -1,31 +1,26 @@
-//using Entitas;
-//using MyGame.Features.PlayerHealth.Systems;
-//using UnityEngine;
+using Entitas;
+using Entitas.Unity;
+using UnityEngine;
 
+public class PlayerHealthFeature : MonoBehaviour
+{
+    private Systems _systems;
 
-//    public class PlayerHealthFeature : MonoBehaviour
-//    {
-//        private Entitas.Systems _systems;
+    void Start()
+    {
+        var contexts = Contexts.sharedInstance;
 
-//        void Start()
-//        {
-//            var contexts = Contexts.sharedInstance;
+        _systems = new Feature("Game Systems")
+            .Add(new CreatePlayerHealthSystem(contexts))
+            .Add(new CheckPlayerHealthSystem(contexts))
+            .Add(new ChangePlayerHealthSystem(contexts));
 
-//            _systems = new Entitas.Systems()
-//                .Add(new CreatePlayerHealthSystem(contexts))
-//                .Add(new CheckPlayerHealthSystem(contexts))
-//                .Add(new ChangePlayerHealthSystem(contexts));
+        _systems.Initialize();
+    }
 
-//            _systems.Initialize();
-//        }
-
-//        void Update()
-//        {
-//            _systems.Execute();
-//        }
-
-//        void OnDestroy()
-//        {
-//            _systems.TearDown();
-//        }
-//    }
+    void Update()
+    {
+        _systems.Execute();
+        _systems.Cleanup();
+    }
+}

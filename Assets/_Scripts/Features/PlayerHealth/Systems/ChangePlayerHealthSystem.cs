@@ -1,29 +1,31 @@
-//using Entitas;
-//using UnityEngine;
+using Entitas;
+using UnityEngine;
 
-//namespace MyGame.Features.PlayerHealth.Systems
-//{
-//    public class ChangePlayerHealthSystem : IExecuteSystem
-//    {
-//        readonly Contexts _contexts;
+public class ChangePlayerHealthSystem : IExecuteSystem
+{
+    private readonly IGroup<GameEntity> _playerGroup;
 
-//        public ChangePlayerHealthSystem(Contexts contexts)
-//        {
-//            _contexts = contexts;
-//        }
+    public ChangePlayerHealthSystem(Contexts contexts)
+    {
+        _playerGroup = contexts.game.GetGroup(GameMatcher.PlayerHealth);
+    }
 
-//        public void Execute()
-//        {
-//            var playerEntity = _contexts.game;
+    public void Execute()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            foreach (var entity in _playerGroup.GetEntities())
+            {
+                entity.isPlayerDamaged = true;
+            }
+        }
 
-//            if (Input.GetKeyDown(KeyCode.D))
-//            {
-//                playerEntity.AddPlayerDamaged();
-//            }
-//            if (Input.GetKeyDown(KeyCode.H))
-//            {
-//                playerEntity.AddPlayerHealed();
-//            }
-//        }
-//    }
-//}
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            foreach (var entity in _playerGroup.GetEntities())
+            {
+                entity.isPlayerHealed = true;
+            }
+        }
+    }
+}
